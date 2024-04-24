@@ -10,6 +10,7 @@
 <h1>Todos</h1>
 {#if !data.todos.length}
 	<p>No todos</p>
+	
 {:else}
 	<div>
 		{#each data.todos as todo (todo.id)}
