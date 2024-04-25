@@ -38,7 +38,7 @@ export interface Todo {
 };
 
 const migrateQueries = [
-  createUserTable, 
+  createUserTable,
   createTodoTable,
 ];
 
@@ -143,4 +143,35 @@ export default class TodoDatabase {
       });
     });
   }
+
+  async insertUser(user: User): Promise<boolean> {
+    const query = `INSERT INTO ${tableUser} (id, user_name, avatar, created_at, is_active, password) 
+                  VALUES (?, ?, ?, ?, ?, ?)`;
+    const args = [user.id, user.user_name, user.avatar, user.created_at, user.is_active, user.password];
+
+    try {
+      await this.db.run(query, args);
+      console.debug('Inserted user into the database');
+      return true;
+    } catch (err) {
+      console.error('Failed to insert user into the database:', err);
+      return false;
+    }
+  }
+
+  async insertTodo(todo: Todo): Promise<boolean> {
+    const query = `INSERT INTO ${tableTodos} (id, title, content, created_at, user_id)
+                  VALUES (?, ?, ?, ?, ?)`;
+    const args = [todo.id, todo.title, todo.content, todo.created_at, todo.user_id];
+
+    try {
+      await this.db.run(query, args);
+      console.debug('Inserted todo into the database');
+      return true;
+    } catch (err) {
+      console.error('Failed to insert todo into the database:', err);
+      return false;
+    }
+  }
+
 }
