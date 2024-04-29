@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { toastStore } from '$lib/components/index.js';
+
 	export let data;
 </script>
 
@@ -10,7 +12,6 @@
 <h1>Todos</h1>
 {#if !data.todos.length}
 	<p>No todos</p>
-	
 {:else}
 	<div>
 		{#each data.todos as todo (todo.id)}
@@ -22,3 +23,10 @@
 		{/each}
 	</div>
 {/if}
+
+<button
+	on:click={() => toastStore.send({ message: 'added todo', variant: 'success', timeout: 3000 })}
+	class="bg-blue-500 p-3 text-white"
+>
+	hello
+</button>

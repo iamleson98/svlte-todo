@@ -4,3 +4,5 @@ export interface BaseResponse {
   statusCode?: number;
   data?: any
 };
+
+export type SystemVariant = 'success' | 'error' | 'warning' | 'info';
