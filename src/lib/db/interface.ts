@@ -116,6 +116,8 @@ export default class TodoDatabase {
         resolve(row as T);
       })
     });
+
+    this.db.run("", [12], )
   }
 
   update(query: string, args?: any[]): Promise<boolean> {
