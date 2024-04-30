@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let data;
-    import "./style.css";
+	import './style.css';
 </script>
 
 <svelte:head>
@@ -15,19 +15,14 @@
 		<div class="form login">
 			<span class="title">Login</span>
 			<p class="text-danger mt-2"></p>
-			<form >
+			<form>
 				<div class="input-field">
-					<input
-						type="text"
-						placeholder="Enter your username"
-						name="username"
-						required
-					/>
+					<input type="text" placeholder="Enter your username" name="username" required />
 					<i class="uil uil-user"></i>
 				</div>
 				<div class="input-field">
 					<input
-					id="password"
+						id="password"
 						type="password"
 						placeholder="Enter your password"
 						name="password"
@@ -46,11 +41,7 @@
 				</div>
 
 				<div class="input-field button">
-					<input
-						type="submit"
-						value="Login Now"
-						
-					/>
+					<input type="submit" value="Login Now" />
 				</div>
 			</form>
 

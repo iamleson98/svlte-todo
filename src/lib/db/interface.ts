@@ -118,7 +118,7 @@ export default class TodoDatabase {
     });
   }
 
-  insert(query: string, args?: any[]): Promise<Error | null> {
+  insert(query: string, args?: any[]): Promise<Error | boolean> {
     return new Promise((resolve, reject) => {
       this.db.run(query, args, (err) => {
         if (err) {
@@ -126,9 +126,9 @@ export default class TodoDatabase {
           reject(err);
         }
 
-        resolve(null);
+        resolve(true);
       });
-    })
+    });
   }
 
   update(query: string, args?: any[]): Promise<Error | null> {
