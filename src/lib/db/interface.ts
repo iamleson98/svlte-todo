@@ -38,7 +38,7 @@ export interface Todo {
 };
 
 const migrateQueries = [
-  createUserTable, 
+  createUserTable,
   createTodoTable,
 ];
 
@@ -116,19 +116,30 @@ export default class TodoDatabase {
         resolve(row as T);
       })
     });
-
-    this.db.run("", [12], )
   }
 
-  update(query: string, args?: any[]): Promise<boolean> {
+  insert(query: string, args?: any[]): Promise<Error | null> {
     return new Promise((resolve, reject) => {
       this.db.run(query, args, (err) => {
         if (err) {
           console.error(err);
-          reject(false);
+          reject(err);
         }
 
-        resolve(true);
+        resolve(null);
+      });
+    })
+  }
+
+  update(query: string, args?: any[]): Promise<Error | null> {
+    return new Promise((resolve, reject) => {
+      this.db.run(query, args, (err) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        }
+
+        resolve(null);
       });
     })
   }

@@ -10,10 +10,6 @@
 	<main>
 		<slot />
 	</main>
-
-	<footer>
-		 <p>hello</p>
-	</footer>
 </div>
 
 <Toast />
