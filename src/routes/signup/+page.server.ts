@@ -7,7 +7,6 @@ export const actions: Actions = {
 
     },
     register: async ({ cookies, request }) => {
-        console.log("--------------------------------")
         const data = await request.formData();
         const username = data.get("username");
         const password = data.get('password');
