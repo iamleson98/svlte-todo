@@ -1,4 +1,4 @@
-import db, { type Todo, tableTodos } from '$lib/db';
+import db, { tableTodos, type Todo } from '$lib/db';
 // import type { BaseResponse } from '$lib/types'
 
 export async function load({ }) {

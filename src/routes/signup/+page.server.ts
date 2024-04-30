@@ -1,18 +1,6 @@
 
-
-
-// export async function _signup(userData: User) {
-//     try {
-//         await dbIface.insertUser(userData);
-//         console.log("User registered successfully");
-//         return { success: true, message: "User registered successfully" };
-//     } catch (error) {
-//         console.error("Error registering user:", error);
-//         return { success: false, message: "Failed to register user" };
-//     }
-// }
-
-import dbIface from '$lib/db';
+import { toastStore } from '$lib/components/index';
+import dbIface, { tableUser } from '$lib/db';
 import type { Actions } from './$types';
 
 export const actions: Actions = {
@@ -23,18 +11,24 @@ export const actions: Actions = {
         const data = await request.formData();
         const username = data.get("username");
         const password = data.get('password');
-
+        const confirmpassword = data.get("confirmpassword")
         if (typeof username === 'string' && typeof password === 'string') {
-            const userData = {
-                id: 0,
-                user_name: username,
-                avatar: "",
-                created_at: new Date().toISOString(),
-                is_active: 1,
-                password: password
-            };
-            dbIface.insertUser(userData);
-            console.log("hihihihi" + username + password);
+            if(password === confirmpassword){
+                const userData = {
+                    id: 0,
+                    user_name: username,
+                    avatar: "",
+                    created_at: new Date().toISOString(),
+                    is_active: 1,
+                    password: password
+                };
+    
+                const query = `INSERT INTO ${tableUser} ( user_name, avatar, created_at, is_active, password) VALUES (?, ?, ?, ?, ?)`;
+                const args = [userData.user_name, userData.avatar, userData.created_at, userData.is_active, userData.password];
+                dbIface.insert(query, args);
+            }else{
+                toastStore.send({ message: 'password and confirmpassword is not matched', variant: 'error', timeout: 3000 })
+            }
         } else {
             console.error("Username or password is not a string");
         }
