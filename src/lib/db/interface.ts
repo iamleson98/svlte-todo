@@ -116,21 +116,6 @@ export default class TodoDatabase {
         resolve(row as T);
       })
     });
-
-    this.db.run("", [12], )
-  }
-
-  insert(query: string, args?: any[]): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      this.db.run(query, args, (err) => {
-        if (err) {
-          console.error(err);
-          reject(false);
-        }
-
-        resolve(true);
-      });
-    })
   }
 
   insert(query: string, args?: any[]): Promise<boolean> {
@@ -171,36 +156,4 @@ export default class TodoDatabase {
       });
     });
   }
-
-  insertUser(user: User): Promise<boolean> {
-    const query = `INSERT INTO ${tableUser} (id, user_name, avatar, created_at, is_active, password) VALUES (?, ?, ?, ?, ?, ?)`;
-    const args = [user.id, user.user_name, user.avatar, user.created_at, user.is_active, user.password];
-
-    return new Promise((resolve, reject) => {
-      this.db.run(query, args, (err) => {
-        if (err) {
-          console.log("this is err in insertUser method: "+err)
-          reject(false)
-        }
-        console.debug('Inserted user into the database');
-        resolve(true)
-      });
-    })
-  }
-
-  async insertTodo(todo: Todo): Promise<boolean> {
-    const query = `INSERT INTO ${tableTodos} (id, title, content, created_at, user_id)
-                  VALUES (?, ?, ?, ?, ?)`;
-    const args = [todo.id, todo.title, todo.content, todo.created_at, todo.user_id];
-
-    try {
-      await this.db.run(query, args);
-      console.debug('Inserted todo into the database');
-      return true;
-    } catch (err) {
-      console.error('Failed to insert todo into the database:', err);
-      return false;
-    }
-  }
-
 }
