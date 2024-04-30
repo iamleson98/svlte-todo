@@ -118,28 +118,28 @@ export default class TodoDatabase {
     });
   }
 
-  insert(query: string, args?: any[]): Promise<boolean> {
+  insert(query: string, args?: any[]): Promise<Error | null> {
     return new Promise((resolve, reject) => {
       this.db.run(query, args, (err) => {
         if (err) {
           console.error(err);
-          reject(false);
+          reject(err);
         }
 
-        resolve(true);
+        resolve(null);
       });
     })
   }
 
-  update(query: string, args?: any[]): Promise<boolean> {
+  update(query: string, args?: any[]): Promise<Error | null> {
     return new Promise((resolve, reject) => {
       this.db.run(query, args, (err) => {
         if (err) {
           console.error(err);
-          reject(false);
+          reject(err);
         }
 
-        resolve(true);
+        resolve(null);
       });
     })
   }

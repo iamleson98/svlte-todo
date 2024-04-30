@@ -1,5 +1,5 @@
 <script lang="ts">
-	import "./style.css";
+	import './style.css';
 </script>
 
 <svelte:head>
@@ -7,36 +7,23 @@
 	<meta name="description" content="signup available" />
 </svelte:head>
 
-
-
 <div class="container">
 	<div class="forms">
 		<div class="form login">
 			<span class="title">SignUp</span>
 			<p class="text-danger mt-2"></p>
 			<form method="POST" action="?/register">
-                <div class="input-field">
-					<input
-						type="text"
-						placeholder="Enter your fullname"
-						name="fullname"
-						
-						required
-					/>
+				<!-- <div class="input-field">
+					<input type="text" placeholder="Enter your fullname" name="fullname" required />
+					<i class="uil uil-user"></i>
+				</div> -->
+				<div class="input-field">
+					<input type="text" placeholder="Enter your username" name="username" required />
 					<i class="uil uil-user"></i>
 				</div>
 				<div class="input-field">
 					<input
-						type="text"
-						placeholder="Enter your username"
-						name="username"
-						required
-					/>
-					<i class="uil uil-user"></i>
-				</div>
-				<div class="input-field">
-					<input
-					id="password"
+						id="password"
 						type="password"
 						placeholder="Enter your password"
 						name="password"
@@ -46,9 +33,9 @@
 					<i class="uil uil-lock icon"></i>
 					<i class="uil uil-eye-slash showHidePw"></i>
 				</div>
-                <div class="input-field">
+				<div class="input-field">
 					<input
-					id="confirmpassword"
+						id="confirmpassword"
 						type="password"
 						placeholder="Enter your confirmpassword"
 						name="confirmpassword"
@@ -60,10 +47,7 @@
 				</div>
 
 				<div class="input-field button">
-					<input
-						type="submit"
-						value="Signup Now"
-					/>
+					<input type="submit" value="Signup Now" />
 				</div>
 			</form>
 
