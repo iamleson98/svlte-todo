@@ -133,6 +133,19 @@ export default class TodoDatabase {
     })
   }
 
+  insert(query: string, args?: any[]): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.db.run(query, args, (err) => {
+        if (err) {
+          console.error(err);
+          reject(false);
+        }
+
+        resolve(true);
+      });
+    })
+  }
+
   update(query: string, args?: any[]): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.db.run(query, args, (err) => {
