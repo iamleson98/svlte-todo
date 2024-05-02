@@ -18,13 +18,12 @@ export interface User {
   password: string;
 };
 
-const createTodoTable = `create table if not exists todos (
+const createTodoTable = `create table if not exists Todos (
 	id integer not null primary key,
   title text unique not null,
 	content text not null,
 	created_at text default current_timestamp,
 	user_id integer not null,
-	
 	foreign key (user_id) references users (id) ON delete cascade
 )`;
 
