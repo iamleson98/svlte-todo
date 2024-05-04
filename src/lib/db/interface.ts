@@ -18,7 +18,7 @@ export interface User {
   password: string;
 };
 
-const createTodoTable = `create table if not exists Todos (
+const createTodoTable = `create table if not exists todos (
 	id integer not null primary key,
   title text unique not null,
 	content text not null,
