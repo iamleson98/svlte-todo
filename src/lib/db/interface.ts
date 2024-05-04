@@ -24,7 +24,6 @@ const createTodoTable = `create table if not exists todos (
 	content text not null,
 	created_at text default current_timestamp,
 	user_id integer not null,
-	
 	foreign key (user_id) references users (id) ON delete cascade
 )`;
 
