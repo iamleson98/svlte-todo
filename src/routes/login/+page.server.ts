@@ -1,4 +1,4 @@
-import dbIface, { tableUser, type User } from '$lib/db';
+import { default as dbIface, tableUser, type User } from '$lib/db';
 import type { Actions } from './$types';
 
 export const actions: Actions = {
