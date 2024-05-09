@@ -2,8 +2,15 @@ import { default as db, default as dbIface, tableTodos, type Todo } from '$lib/d
 import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
 
-export async function load({ }) {
-  const result = await db.select<Todo>(`SELECT * FROM ${tableTodos}`);
+export async function load({ cookies }) {
+  const currentDate = new Date().toISOString().split('T')[0];
+  const userId = cookies.get('user_id');
+
+  if (!userId) {
+    return fail(401, { message: 'Unauthorized', code: 401 });
+  }
+
+  const result = await db.select<Todo>(`SELECT * FROM ${tableTodos} WHERE DATE(created_at) = ? AND user_id = ?`, [currentDate, userId]);
 
   return {
     todos: result,
@@ -14,9 +21,21 @@ export const actions: Actions = {
   addTodo: async ({ cookies, request }) => {
     const data = await request.formData();
     const todo = data.get("todo");
+    const userId = cookies.get('user_id');
 
-    const query = `INSERT INTO ${tableTodos} ( title, content, created_at, user_id) VALUES ( ?, ?, ?, ?)`;
-    const args = [todo, '', new Date().toISOString(), 1];
+    if (!userId) {
+      return fail(401, { message: 'Unauthorized', code: 401 });
+    }
+
+    const currentDate = new Date().toISOString().split('T')[0];
+    const existingTodo = await db.select<Todo>(`SELECT * FROM ${tableTodos} WHERE DATE(created_at) = ? AND title = ? AND user_id = ?`, [currentDate, todo, userId]);
+
+    if (existingTodo.length > 0) {
+      return fail(400, { message: 'A similar todo already exists for today', code: 400 });
+    }
+
+    const query = `INSERT INTO ${tableTodos} ( title, content, created_at,status , user_id) VALUES ( ?, ?, ?, ?, ?)`;
+    const args = [todo, '', new Date().toISOString(),1 , userId];
     try {
       await dbIface.insert(query, args);
 
@@ -30,17 +49,10 @@ export const actions: Actions = {
     }
   },
 
-  updateContent: async ({request}) => {
+  updateContent: async ({ request }) => {
     const data = await request.formData();
     const contentUpdate = data.get("content");
     const todoId = data.get("todoId");
-
-    if (!contentUpdate || !todoId) {
-      console.log("loi")
-      return fail(400, { message: "Missing content or todoId", code: 400 });
-    }else{
-      console.log("hi")
-    }
 
     const query = `UPDATE ${tableTodos} SET content = ? WHERE id = ?`;
     const args = [contentUpdate, todoId]

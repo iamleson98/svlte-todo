@@ -4,7 +4,6 @@
 	import './style.css';
 	export let data;
 
-	
 	let selectedTodo: number | null = null;
 
 	async function handleSubmit(event: { currentTarget: HTMLFormElement }) {
@@ -27,8 +26,6 @@
 	function showDetail(todo: number) {
 		selectedTodo = todo;
 	}
-
-
 </script>
 
 <svelte:head>
@@ -81,10 +78,22 @@
 					{:else}
 						<div>
 							{#each data.todos as todo (todo.id)}
-								<button class="itemTodo" on:click={() => showDetail(todo.id)}>
-									<p style="margin-right: auto;">{todo.title}</p>
-									<input type="checkbox" name="" id="" style="height: 15px; width: 15px" />
-								</button>
+								{#if todo.status === 0}
+									<button class="itemTodo" on:click={() => showDetail(todo.id)}>
+										<p style="margin-right: auto;">{todo.title}</p>
+										<input type="checkbox" name="status" style="height: 15px; width: 15px" />
+									</button>
+								{:else}
+									<button class="itemTodoComplete" on:click={() => showDetail(todo.id)}>
+										<p style="margin-right: auto;">{todo.title}</p>
+										<input
+											type="checkbox"
+											name="status"
+											style="height: 15px; width: 15px;"
+											checked
+										/>
+									</button>
+								{/if}
 							{/each}
 						</div>
 					{/if}
@@ -105,7 +114,7 @@
 									alt=""
 									style="width: 30px; height: 30px"
 								/>
-								<p class="edTime"> {new Date(todo.created_at).toLocaleDateString()} </p>
+								<p class="edTime">{new Date(todo.created_at).toLocaleDateString()}</p>
 							</div>
 							<div class="detailTime">
 								<img
@@ -113,19 +122,34 @@
 									alt=""
 									style="width: 30px; height: 30px"
 								/>
-								<p class="edTime" placeholder="enter hour" > {new Date(todo.created_at).toLocaleTimeString()} </p>
+								<p class="edTime" placeholder="enter hour">
+									{new Date(todo.created_at).toLocaleTimeString()}
+								</p>
 							</div>
 						</div>
 
-						<form class="edContent" method="post" action="?/updateContent" on:submit|preventDefault={handleSubmit}>
-							<input type="hidden" name="todoId" value="{selectedTodo}" placeholder="{todo.content}"/>
-							<input type="text" class="content" placeholder="enter content" name="content" required/>
-							<button type="submit"><img
-								src="https://cdn-icons-png.flaticon.com/128/3161/3161597.png"
-								alt=""
-								style="width: 30px; height: 30px;"
-								
-							/></button>
+						<form
+							class="edContent"
+							method="post"
+							action="?/updateContent"
+							on:submit|preventDefault={handleSubmit}
+						>
+							<input type="hidden" name="todoId" value={selectedTodo} />
+							<input
+								type="text"
+								class="content"
+								placeholder="enter content"
+								name="content"
+								value={todo.content || ''}
+								required
+							/>
+							<button type="submit"
+								><img
+									src="https://cdn-icons-png.flaticon.com/128/3161/3161597.png"
+									alt=""
+									style="width: 30px; height: 30px;"
+								/></button
+							>
 						</form>
 						<div class="detailContent">
 							{#if !todo.content}
@@ -133,7 +157,6 @@
 							{:else}
 								<p class="contentDiv">{todo.content}</p>
 							{/if}
-							
 						</div>
 
 						<button class="btnok">hi</button>

@@ -16,6 +16,12 @@ export const actions: Actions = {
                     code: 400,
                     message: "username or password incorrect"
                 }
+
+            cookies.set('user_id', user.id.toString(), {
+                maxAge: 60 * 60 * 24,
+                path: '/'
+            });
+
             return {
                 code: 201,
                 message: "successfully",
@@ -28,6 +34,7 @@ export const actions: Actions = {
             }
         }
     },
+
     register: async ({ cookies, request }) => {
     }
 };
