@@ -143,7 +143,7 @@ export default class TodoDatabase {
     })
   }
 
-  delete(query: string, args?: []): Promise<boolean> {
+  delete(query: string, args?: any[]): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.db.run(query, args, (err) => {
         if (err) {

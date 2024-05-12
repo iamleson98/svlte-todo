@@ -1,12 +1,10 @@
 <script lang="ts">
 	import { applyAction, deserialize } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
-	import { toastStore } from '$lib/components/toast/index.js';
-	import type { ActionData } from './$types.js';
 	import './style.css';
 	export let data;
 
-	export let form: ActionData;
+	let selectedTodo: number | null = null;
 
 	async function handleSubmit(event: { currentTarget: HTMLFormElement }) {
 		const data = new FormData(event.currentTarget);
@@ -19,11 +17,14 @@
 		const result = deserialize(await response.text());
 
 		if (result.type === 'success') {
-			// rerun all `load` functions, following the successful update
 			await invalidateAll();
 		}
 
 		applyAction(result);
+	}
+
+	function showDetail(todo: number) {
+		selectedTodo = todo;
 	}
 </script>
 
@@ -54,13 +55,18 @@
 				<img
 					src="https://cdn-icons-png.flaticon.com/128/3967/3967265.png"
 					alt=""
-					style="width: 30px; height: 30px"
+					style="width: 30px; height: 30px;"
 				/>
 				<p>future</p>
 			</div>
 		</div>
 		<div class="manage">
-			<div class="tableList"></div>
+			<div class="tableList">
+				<div class="flex flex-row">
+					<img src="https://cdn-icons-png.flaticon.com/128/14991/14991711.png" alt="" class="h-30 w-30">
+					<p>hii</p>
+				</div>
+			</div>
 			<div class="todoList">
 				<form
 					class="addTodo"
@@ -72,58 +78,114 @@
 					<input type="submit" class="btnAdd" value="Add" />
 				</form>
 				<div class="list">
-					{#if !data.todos.length}
-						<p>No todos</p>
-					{:else}
+					{#if data && data.todos && data.todos.length}
 						<div>
 							{#each data.todos as todo (todo.id)}
-								<div class="itemTodo">
+								<!-- {#if todo.status === 0}
+									<button class="itemTodo" on:click={() => showDetail(todo.id)}>
+										<p style="margin-right: auto;">{todo.title}</p>
+										<input type="checkbox" name="status" style="height: 15px; width: 15px" />
+									</button>
+								{:else}
+									<button class="itemTodoComplete" on:click={() => showDetail(todo.id)}>
+										<p style="margin-right: auto;">{todo.title}</p>
+										<input
+											type="checkbox"
+											name="status"
+											style="height: 15px; width: 15px;"
+											checked
+										/>
+									</button>
+								{/if} -->
+
+								<button class="itemTodo" on:click={() => showDetail(todo.id)}>
 									<p style="margin-right: auto;">{todo.title}</p>
-									<input type="checkbox" name="" id="" style="height: 15px; width: 15px" />
-								</div>
+									<input type="checkbox" name="status" style="height: 15px; width: 15px;" />
+								</button>
 							{/each}
 						</div>
+					{:else}
+						<p>No todos</p>
 					{/if}
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="detailTodo">
-		<div class="title"></div>
-		<div class="detail">
-			<div class="time">
-				<div class="detailTime">
-					<img
-						src="https://cdn-icons-png.flaticon.com/128/14991/14991711.png"
-						alt=""
-						style="width: 30px; height: 30px"
-					/>
-					<input type="text" class="edTime" placeholder="enter day" />
-				</div>
-				<div class="detailTime">
-					<img
-						src="https://cdn-icons-png.flaticon.com/128/2779/2779780.png"
-						alt=""
-						style="width: 30px; height: 30px"
-					/>
-					<input type="text" class="edTime" placeholder="enter hour" />
-				</div>
-			</div>
+		{#if selectedTodo !== null}
+			{#if data && data.todos}
+				{#each data.todos as todo}
+					{#if todo.id === selectedTodo}
+						<div class="title">
+							<input
+								type="checkbox"
+								name=""
+								id=""
+								style="margin-right: 10px; width: 20px; height: 20px"
+							/>
+							<p>{todo.title}</p>
+						</div>
+						<div class="detail">
+							<div class="time">
+								<div class="detailTime">
+									<img
+										src="https://cdn-icons-png.flaticon.com/128/14991/14991711.png"
+										alt=""
+										style="width: 30px; height: 30px"
+									/>
+									<p class="edTime">{new Date(todo.created_at).toLocaleDateString()}</p>
+								</div>
+								<div class="detailTime">
+									<img
+										src="https://cdn-icons-png.flaticon.com/128/2779/2779780.png"
+										alt=""
+										style="width: 30px; height: 30px"
+									/>
+									<p class="edTime" placeholder="enter hour">
+										{new Date(todo.created_at).toLocaleTimeString()}
+									</p>
+								</div>
+							</div>
 
-			<div class="edContent">
-				<input type="text" class="content" placeholder="enter content" />
-				<img
-					src="https://cdn-icons-png.flaticon.com/128/3161/3161597.png"
-					alt=""
-					style="width: 30px; height: 30px;"
-				/>
+							<form
+								class="edContent"
+								method="post"
+								action="?/updateContent"
+								on:submit|preventDefault={handleSubmit}
+							>
+								<input type="hidden" name="todoId" value={selectedTodo} />
+								<input
+									type="text"
+									class="content"
+									placeholder="enter content"
+									name="content"
+									value={todo.content || ''}
+									required
+								/>
+								<button type="submit"
+									><img
+										src="https://cdn-icons-png.flaticon.com/128/3161/3161597.png"
+										alt=""
+										style="width: 30px; height: 30px;"
+									/></button
+								>
+							</form>
+							<div class="detailContent">
+								{#if todo.content}
+									<p class="contentDiv">{todo.content}</p>
+								{/if}
+							</div>
+
+							<button class="btnok">delete task</button>
+						</div>
+					{/if}
+				{/each}
+			{/if}
+		{:else}
+			<div class="title"></div>
+			<div class="detail">
+				<p>No item selected</p>
 			</div>
-		</div>
+		{/if}
 	</div>
 </div>
-
-{#if form?.code === 201}{() =>
-		toastStore.send({ message: 'added todo', variant: 'success', timeout: 3000 })}
-{:else if form?.code && [400, 500].includes(form.code)}
-	<p class="p-2 text-red-500 bg-red-100">{form?.message}</p>
-{/if}
