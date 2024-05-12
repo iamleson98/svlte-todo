@@ -184,8 +184,6 @@
     padding-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
 }
 
 .time{
@@ -213,13 +211,11 @@
     background-color: #E2E8EC;
     margin-left: 10px;
     line-height: 40px;
-    line-height: 40px;
 }
 .edContent{
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-top: 15px;
     margin-top: 15px;
 }
 .content{
@@ -235,7 +231,6 @@
 .submitBtn{
     width: 30px;
     height: 30px;
-    
 }
 
 .detailContent{

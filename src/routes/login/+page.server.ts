@@ -34,7 +34,4 @@ export const actions: Actions = {
             }
         }
     },
-
-    register: async ({ cookies, request }) => {
-    }
 };

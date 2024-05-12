@@ -36,7 +36,7 @@ export const actions: Actions = {
       return fail(400, { message: 'A similar todo already exists for today', code: 400 });
     }
 
-    const query = `INSERT INTO ${tableTodos} ( title, content, created_at , user_id) VALUES ( ?, ?, ?, ?)`;
+    const query = `INSERT INTO ${tableTodos} ( title, content, created_at, user_id) VALUES ( ?, ?, ?, ?)`;
     const args = [todo, '', new Date().toISOString() , userId];
     try {
       await dbIface.insert(query, args);
@@ -76,7 +76,7 @@ export const actions: Actions = {
     const data = await request.formData();
     const idTodo = data.get("idTodo");
 
-    const query = `DELETE ${tableTodos} WHERE id = ?`;
+    const query = `DELETE FROM ${tableTodos} WHERE id = ?`;
     const args = [idTodo]
 
     try {

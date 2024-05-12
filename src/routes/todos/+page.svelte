@@ -62,10 +62,6 @@
 		</div>
 		<div class="manage">
 			<div class="tableList">
-				<div class="flex flex-row">
-					<img src="https://cdn-icons-png.flaticon.com/128/14991/14991711.png" alt="" class="h-30 w-30">
-					<p>hii</p>
-				</div>
 			</div>
 			<div class="todoList">
 				<form

@@ -1,12 +1,9 @@
 
 import dbIface, { tableUser } from '$lib/db';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
 
 export const actions: Actions = {
-    login: async (event) => {
-
-    },
     register: async ({ cookies, request }) => {
         const data = await request.formData();
         const username = data.get("username");
