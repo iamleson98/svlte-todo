@@ -20,7 +20,7 @@ export interface User {
 
 const createTodoTable = `create table if not exists todos (
 	id integer not null primary key,
-  title text unique not null,
+  title text not null,
 	content text not null,
 	created_at text default current_timestamp,
 	user_id integer not null,
@@ -143,7 +143,7 @@ export default class TodoDatabase {
     })
   }
 
-  delete(query: string, args?: []): Promise<boolean> {
+  delete(query: string, args?: any[]): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.db.run(query, args, (err) => {
         if (err) {
