@@ -3,9 +3,14 @@ import type { Cookies } from '@sveltejs/kit';
 import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
 
+<<<<<<< HEAD
 export async function load({ cookies }: { cookies: Cookies }) {
   const currentDate = new Date().toISOString().split('T')[0];
 
+=======
+export async function load({ cookies }) {
+  const currentDate = new Date().toISOString().split('T')[0];
+>>>>>>> 02349715a2437c2f440f4791245e90a523a1bd4e
   const userId = cookies.get('user_id');
 
   if (!userId) {
@@ -36,8 +41,13 @@ export const actions: Actions = {
       return fail(400, { message: 'A similar todo already exists for today', code: 400 });
     }
 
+<<<<<<< HEAD
     const query = `INSERT INTO ${tableTodos} ( title, content, created_at , user_id) VALUES ( ?, ?, ?, ?)`;
     const args = [todo, '', new Date().toISOString() , userId];
+=======
+    const query = `INSERT INTO ${tableTodos} ( title, content, created_at,status , user_id) VALUES ( ?, ?, ?, ?, ?)`;
+    const args = [todo, '', new Date().toISOString(),1 , userId];
+>>>>>>> 02349715a2437c2f440f4791245e90a523a1bd4e
     try {
       await dbIface.insert(query, args);
 
@@ -71,6 +81,7 @@ export const actions: Actions = {
       return fail(500, { message: "Failed to update todo content", code: 500 });
     }
   },
+<<<<<<< HEAD
 
   deleteTodo: async ({request}) => {
     const data = await request.formData();
@@ -91,4 +102,6 @@ export const actions: Actions = {
       return fail(500, {message: "Failed to delete todo ", code: 500})
     }
   }
+=======
+>>>>>>> 02349715a2437c2f440f4791245e90a523a1bd4e
 };

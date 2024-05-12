@@ -153,7 +153,10 @@
     color: blue;
     font-size: 20px;
     padding-left: 20px;
+<<<<<<< HEAD
     flex-direction: row;
+=======
+>>>>>>> 02349715a2437c2f440f4791245e90a523a1bd4e
 }
 
 .detail{

@@ -81,7 +81,11 @@
 					{#if data && data.todos && data.todos.length}
 						<div>
 							{#each data.todos as todo (todo.id)}
+<<<<<<< HEAD
 								<!-- {#if todo.status === 0}
+=======
+								{#if todo.status === 0}
+>>>>>>> 02349715a2437c2f440f4791245e90a523a1bd4e
 									<button class="itemTodo" on:click={() => showDetail(todo.id)}>
 										<p style="margin-right: auto;">{todo.title}</p>
 										<input type="checkbox" name="status" style="height: 15px; width: 15px" />
@@ -96,12 +100,16 @@
 											checked
 										/>
 									</button>
+<<<<<<< HEAD
 								{/if} -->
 
 								<button class="itemTodo" on:click={() => showDetail(todo.id)}>
 									<p style="margin-right: auto;">{todo.title}</p>
 									<input type="checkbox" name="status" style="height: 15px; width: 15px;" />
 								</button>
+=======
+								{/if}
+>>>>>>> 02349715a2437c2f440f4791245e90a523a1bd4e
 							{/each}
 						</div>
 					{:else}
@@ -113,6 +121,7 @@
 	</div>
 	<div class="detailTodo">
 		{#if selectedTodo !== null}
+<<<<<<< HEAD
 			{#if data && data.todos}
 				{#each data.todos as todo}
 					{#if todo.id === selectedTodo}
@@ -185,6 +194,72 @@
 			<div class="title"></div>
 			<div class="detail">
 				<p>No item selected</p>
+=======
+			{#each data.todos as todo}
+				{#if todo.id === selectedTodo}
+					<div class="title">{todo.title}</div>
+					<div class="detail">
+						<div class="time">
+							<div class="detailTime">
+								<img
+									src="https://cdn-icons-png.flaticon.com/128/14991/14991711.png"
+									alt=""
+									style="width: 30px; height: 30px"
+								/>
+								<p class="edTime">{new Date(todo.created_at).toLocaleDateString()}</p>
+							</div>
+							<div class="detailTime">
+								<img
+									src="https://cdn-icons-png.flaticon.com/128/2779/2779780.png"
+									alt=""
+									style="width: 30px; height: 30px"
+								/>
+								<p class="edTime" placeholder="enter hour">
+									{new Date(todo.created_at).toLocaleTimeString()}
+								</p>
+							</div>
+						</div>
+
+						<form
+							class="edContent"
+							method="post"
+							action="?/updateContent"
+							on:submit|preventDefault={handleSubmit}
+						>
+							<input type="hidden" name="todoId" value={selectedTodo} />
+							<input
+								type="text"
+								class="content"
+								placeholder="enter content"
+								name="content"
+								value={todo.content || ''}
+								required
+							/>
+							<button type="submit"
+								><img
+									src="https://cdn-icons-png.flaticon.com/128/3161/3161597.png"
+									alt=""
+									style="width: 30px; height: 30px;"
+								/></button
+							>
+						</form>
+						<div class="detailContent">
+							{#if !todo.content}
+								<p></p>
+							{:else}
+								<p class="contentDiv">{todo.content}</p>
+							{/if}
+						</div>
+
+						<button class="btnok">hi</button>
+					</div>
+				{/if}
+			{/each}
+		{:else}
+			<div class="title"></div>
+			<div class="detail">
+				<p>no item selected</p>
+>>>>>>> 02349715a2437c2f440f4791245e90a523a1bd4e
 			</div>
 		{/if}
 	</div>

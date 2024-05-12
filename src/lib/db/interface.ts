@@ -23,6 +23,7 @@ const createTodoTable = `create table if not exists todos (
   title text not null,
 	content text not null,
 	created_at text default current_timestamp,
+  status integer not null,
 	user_id integer not null,
 	foreign key (user_id) references users (id) ON delete cascade
 )`;
@@ -33,6 +34,7 @@ export interface Todo {
   title: string;
   content: string;
   created_at: string;
+  status: number;
   user_id: number;
 };
 
